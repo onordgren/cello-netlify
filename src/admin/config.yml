@@ -3,54 +3,35 @@ backend:
 
 publish_mode: editorial_workflow
 
-media_folder: static/images/uploads
-public_folder: /images/uploads
+media_folder: "static/images/uploads"
+public_folder: "/images/uploads"
 
 collections:
-  - name: products
-    label: Products
-    label_singular: Product
-    folder: _products
+  - name: "product"
+    label: "Products"
+    label_singular: "Product"
+    folder: "_products"
     create: true
-    slug: {{slug}}
+    slug: "{{slug}}"
     format: json
     fields:
-      - label: Layout
-        name: layout
-        widget: hidden
-        default: product
-      - label: Title
-        name: title
-        widget: string
-      - label: Body
-        name: body
-        widget: markdown
-      - label: Images
-        name: images
-        widget: list
+      - {label: "Layout", name: "layout", widget: "hidden", default: "product"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Category", name: "category", collection: "categories", widget: "relation", searchFields: ["title"], valueField: "title"}
+      - label: "Images"
+        name: "images"
+        widget: "list"
         field:
           - {label: Image, name: image, widget: image}
-      - label: Category
-        name: category
-        collection: categories
-        widget: relation
-        searchFields: [title]
-        valueField: title
-  - name: categories
-    label: Categories
-    label_singular: Category
-    folder: _categories
+  - name: "category"
+    label: "Categories"
+    label_singular: "Category"
+    folder: "_categories"
     create: true
-    slug: {{slug}}
+    slug: "{{slug}}"
     format: json
     fields:
-      - label: Layout
-        name: layout
-        widget: hidden
-        default: category
-      - label: Title
-        name: title
-        widget: string
-      - label: Body
-        name: body
-        widget: markdown
+      - {label: "Layout", name: "layout", widget: "hidden", default: "category"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Body", name: "body", widget: "markdown"}
