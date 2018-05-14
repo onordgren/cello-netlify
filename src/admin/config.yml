@@ -25,13 +25,11 @@ collections:
       - label: Body
         name: body
         widget: markdown
-      - label: Gallery
-        name: gallery
+      - label: Images
+        name: images
         widget: list
         field:
-          - label: Image
-            name: image
-            widget: image
+          - {label: Image, name: image, widget: image}
       - label: Category
         name: category
         collection: categories
@@ -52,7 +50,7 @@ collections:
         default: category
       - label: Title
         name: title
-        widget: string}
+        widget: string
       - label: Body
         name: body
-        widget: markdown}
+        widget: markdown
