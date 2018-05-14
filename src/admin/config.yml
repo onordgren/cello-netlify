@@ -7,7 +7,7 @@ media_folder: "static/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
-  - name: "product"
+  - name: "products"
     label: "Products"
     label_singular: "Product"
     folder: "_products"
@@ -23,8 +23,8 @@ collections:
         name: "images"
         widget: "list"
         field:
-          - {label: Image, name: image, widget: image}
-  - name: "category"
+          - {label: "Image", name: "image", widget: "image"}
+  - name: "categories"
     label: "Categories"
     label_singular: "Category"
     folder: "_categories"
