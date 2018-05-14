@@ -1,6 +1,5 @@
 backend:
   name: git-gateway
-  branch: master # Branch to update (optional; defaults to master)
 
 publish_mode: editorial_workflow
 
@@ -8,13 +7,26 @@ media_folder: "static/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
-  - name: "product" # Used in routes, e.g., /admin/collections/blog
-    label: "Products" # Used in the UI
-    folder: "_products" # The path to the folder where the documents are stored
-    create: true # Allow users to create new documents in this collection
-    slug: "{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+  - name: "product"
+    label: "Products"
+    label_singular: "Product"
+    folder: "_products"
+    create: true
+    slug: "{{slug}}"
     format: json
-    fields: # The fields for each document, usually in front matter
+    fields:
       - {label: "Layout", name: "layout", widget: "hidden", default: "product"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Category", name: "category", widget: "relation", searchFields: ["title"], valueField: "title"}
+  - name: "category"
+    label: "Categories"
+    label_singular: "Category"
+    folder: "_categories"
+    create: true
+    slug: "{{slug}}"
+    format: json
+    fields:
+      - {label: "Layout", name: "layout", widget: "hidden", default: "category"}
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Body", name: "body", widget: "markdown"}
