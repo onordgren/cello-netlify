@@ -8,7 +8,16 @@ const fs = require('fs');
 const file = require('gulp-file');
 const path = require('path');
 
-gulp.task('build', ['admin', 'sass', 'images', 'categories']);
+gulp.task('build', ['admin', 'sass', 'images', 'categories', 'index']);
+
+gulp.task('index', () => {
+  const indexTemplate = pug.compileFile('layouts/index.pug');
+  const categories = getCategories();
+  categories.map(category => category.url = `/${category.name}`);
+
+  file('index.html', indexTemplate({ categories }), { src: true })
+    .pipe(gulp.dest('./public'));
+});
 
 gulp.task('admin', () => {
   return gulp.src('static/admin/*')
@@ -37,13 +46,14 @@ gulp.task('images', () => {
 gulp.task('categories', () => {
     const categoryTemplate = pug.compileFile('layouts/category.pug');
     const productTemplate = pug.compileFile('layouts/product.pug');
-    const products = glob.sync('_products/*.json').map(getJsonFromFile);
-    const categories = glob.sync('_categories/*.json').map(getJsonFromFile);
+    const products = getProducts();
+    const categories = getCategories();
+    categories.map(category => category.url = `/${category.name}`);
 
     categories.forEach((category) => {
       const categoryDir = `./public/${category.name}`;
       const productsInCategory = products.filter(product => product.category === category.title);
-      productsInCategory.map(product => product.permaLink = `/${category.name}/${product.name}.html`);
+      productsInCategory.map(product => product.url = `/${category.name}/${product.name}`);
       category.products = productsInCategory;
 
       file('index.html', categoryTemplate(category), { src: true })
@@ -55,6 +65,27 @@ gulp.task('categories', () => {
       })
     });
 });
+
+function getCategories() {
+  return glob.sync('_categories/*.json').map(getJsonFromFile);
+}
+
+function getProducts() {
+  return glob.sync('_products/*.json').map(getJsonFromFile);
+}
+
+function getMap() {
+  const allProducts = getProducts();
+  const allCategories = getCategories();
+  const productsByCategory = allCategories.map(category => addProductsToCategory(category, allProducts));
+
+  return allCategories;
+}
+
+function addProductsToCategory(category, allProducts) {
+  const products = allProducts.filter(product => product.category === category.title).map(product => product.permaLink = `/${category.name}/${product.name}`);
+  return Object.assign(category, products);
+}
 
 function getJsonFromFile(file) {
   let json = JSON.parse(fs.readFileSync(file));

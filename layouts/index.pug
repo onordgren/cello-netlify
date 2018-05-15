@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h2 Categories
+  ul
+    each category in categories
+      li
+        a(href=category.url)= category.title
+    else
+      li There are no values
+      
+block body-bottom
+  script.
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }

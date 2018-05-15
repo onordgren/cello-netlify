@@ -1,10 +1,13 @@
-h1 #{title}
-.content #{body}
+extends layout.pug
 
-h2 Products
-ul
-  each product in products
-    li
-      a(href=product.permaLink)= product.title
-  else
-    li There are no values
+block content
+  h1 #{title}
+  .content #{body}
+
+  h2 Products
+  ul
+    each product in products
+      li
+        a(href=product.url)= product.title
+    else
+      li There are no values
