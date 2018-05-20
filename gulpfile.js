@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const sass = require('gulp-sass');
+const stylus = require('gulp-stylus');
 const pug = require('pug');
 const map = require('map-stream');
 const rename = require('gulp-rename');
@@ -7,8 +7,17 @@ const glob = require('glob');
 const fs = require('fs');
 const file = require('gulp-file');
 const path = require('path');
+const webserver = require('gulp-webserver');
 
-gulp.task('build', ['admin', 'sass', 'images', 'categories', 'index']);
+gulp.task('webserver', function() {
+  gulp.src('./public')
+    .pipe(webserver({
+      livereload: true,
+      open: true
+    }));
+});
+
+gulp.task('build', ['admin', 'stylus', 'images', 'categories', 'index']);
 
 gulp.task('index', () => {
   const indexTemplate = pug.compileFile('layouts/index.pug');
@@ -32,9 +41,9 @@ gulp.task('pug', () => {
     .pipe(gulp.dest('./public'));
 });
 
-gulp.task('sass', () => {
-  return gulp.src('static/css/*.scss')
-    .pipe(sass())
+gulp.task('stylus', () => {
+  return gulp.src('static/css/*.styl')
+    .pipe(stylus())
     .pipe(gulp.dest('./public/css'));
 });
 
@@ -53,7 +62,7 @@ gulp.task('categories', () => {
     categories.forEach((category) => {
       const categoryDir = `./public/${category.name}`;
       const productsInCategory = products.filter(product => product.category === category.title);
-      productsInCategory.map(product => product.url = `/${category.name}/${product.name}`);
+      productsInCategory.map(product => product.url = `/${category.name}/${product.name}.html`);
       category.products = productsInCategory;
 
       file('index.html', categoryTemplate(category), { src: true })

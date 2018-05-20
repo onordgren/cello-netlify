@@ -1,14 +1,11 @@
 extends layout
 
-block content
-  h2 Categories
-  ul
+block navigation
+  nav.navigation
+    a.navigation-link(href="#") Cello
     each category in categories
-      li
-        a(href=category.url)= category.title
-    else
-      li There are no values
-      
+      a.navigation-link(href=category.url)= category.title
+
 block body-bottom
   script.
     if (window.netlifyIdentity) {

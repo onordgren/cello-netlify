@@ -1,5 +1,9 @@
 extends layout
 
 block content
-  h1 #{title}
-  .content #{body}
+  .product-information
+    h1.product-title #{title}
+    .product-description #{body}
+  .product-images Images
+    each image in images
+      img.product-image(src=image.image)
