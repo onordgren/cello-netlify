@@ -5,7 +5,8 @@ block content
     .product-information
       h1.product-title #{product.title}
       .product-description #{product.body}
-  .product-images
-    .container
-      each image in product.images
-        img.product-image(src=image.image)
+  if product.images
+    .product-images
+      .container
+        each image in product.images
+          img.product-image(src=image.image)
