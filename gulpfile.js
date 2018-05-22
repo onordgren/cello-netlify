@@ -42,8 +42,9 @@ gulp.task('pug', () => {
 });
 
 gulp.task('stylus', () => {
-  return gulp.src('static/css/*.styl')
+  return gulp.src('static/css/entry.styl')
     .pipe(stylus())
+    .pipe(rename('styles.css'))
     .pipe(gulp.dest('./public/css'));
 });
 
@@ -65,11 +66,11 @@ gulp.task('categories', () => {
       productsInCategory.map(product => product.url = `/${category.name}/${product.name}.html`);
       category.products = productsInCategory;
 
-      file('index.html', categoryTemplate(category), { src: true })
+      file('index.html', categoryTemplate({ categories, category }), { src: true })
         .pipe(gulp.dest(categoryDir));
 
       productsInCategory.forEach((product) => {
-        file(`${product.name}.html`, productTemplate(product), { src: true })
+        file(`${product.name}.html`, productTemplate({ categories, product }), { src: true })
           .pipe(gulp.dest(categoryDir));
       })
     });

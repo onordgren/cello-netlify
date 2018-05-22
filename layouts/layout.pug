@@ -3,10 +3,17 @@ html
   head
     title My Site - #{title}
     link(rel="stylesheet" href="/css/styles.css")
-    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display|Raleway:400,600,700,800")
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display|Raleway:300,400,600,700,800")
     script(src="https://identity.netlify.com/v1/netlify-identity-widget.js")
   body
-    .container
-      block navigation
-      block content
+    block navigation
+      .container
+        nav.navigation
+          a.navigation-link(href="#") Cello
+          each category in categories
+            a.navigation-link(href=category.url)= category.title
+    block content
     block body-bottom
+    footer.footer 
+      .container
+        h2 Footer
